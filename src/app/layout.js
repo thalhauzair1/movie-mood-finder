@@ -62,9 +62,8 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} ${outfit.variable} h-full antialiased`}
     >
       <head>
-        <Script
-          id="adsbygoogle-init"
-          strategy="afterInteractive"
+        <script
+          async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1838079573584906"
           crossOrigin="anonymous"
         />
