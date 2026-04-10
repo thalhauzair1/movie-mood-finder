@@ -2,13 +2,13 @@
 
 /**
  * Google AdSense Ad Component
- * Replace 'ca-pub-XXXXXXXXXXXXXXXX' with your actual AdSense publisher ID
+ * Replace 'ca-pub-1838079573584906' with your actual AdSense publisher ID
  * Replace the slot IDs with your actual ad unit slot IDs
  */
 
 import { useEffect, useRef } from "react";
 
-const AD_CLIENT = "ca-pub-XXXXXXXXXXXXXXXX"; // Replace with your AdSense publisher ID
+const AD_CLIENT = "ca-pub-1838079573584906"; // Replace with your AdSense publisher ID
 
 export function AdBanner({ slot = "1234567890", format = "auto", responsive = true, className = "" }) {
   const adRef = useRef(null);

@@ -65,7 +65,7 @@ export default function RootLayout({ children }) {
         <Script
           id="adsbygoogle-init"
           strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1838079573584906"
           crossOrigin="anonymous"
         />
         <script
