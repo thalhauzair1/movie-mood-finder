@@ -1,5 +1,6 @@
 import { Inter, Outfit } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -76,6 +77,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main className="flex-1 pt-16">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
