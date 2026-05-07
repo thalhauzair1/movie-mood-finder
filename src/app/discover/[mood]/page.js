@@ -76,13 +76,6 @@ export default async function DiscoverMoodPage({ params }) {
         </div>
       </section>
 
-      {/* Ad placement */}
-      <div className="max-w-4xl mx-auto px-4 my-6">
-        <div className="border border-dashed border-white/10 rounded-xl bg-white/[0.02] px-4 py-6 text-center">
-          <p className="text-text-muted/40 text-xs uppercase tracking-widest">Advertisement</p>
-        </div>
-      </div>
-
       {/* Movie Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {movies.length > 0 ? (
@@ -131,12 +124,6 @@ export default async function DiscoverMoodPage({ params }) {
               ))}
             </div>
 
-            {/* Bottom ad */}
-            <div className="max-w-4xl mx-auto mt-12">
-              <div className="border border-dashed border-white/10 rounded-xl bg-white/[0.02] px-4 py-6 text-center">
-                <p className="text-text-muted/40 text-xs uppercase tracking-widest">Advertisement</p>
-              </div>
-            </div>
           </>
         ) : (
           <div className="text-center py-16 text-text-muted">

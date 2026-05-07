@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getMovieDetails, getImageUrl, getBackdropUrl } from "@/services/tmdbApi";
-import { AdBannerPlaceholder, SidebarAd } from "@/components/AdBanner";
 import { formatRating, getYear } from "@/utils/helpers";
 import useStore from "@/store/useStore";
 
@@ -155,8 +154,6 @@ export default function MovieDetailPage() {
               )}
             </div>
             
-            {/* Sidebar Ad placement */}
-            <SidebarAd className="hidden lg:block" />
           </div>
 
           {/* Right Column: Details */}
@@ -220,9 +217,6 @@ export default function MovieDetailPage() {
                 </p>
               </div>
             )}
-
-            {/* Ad placement in the middle of content */}
-            <AdBannerPlaceholder className="my-8" />
 
             {/* Overview */}
             <div>

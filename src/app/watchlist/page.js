@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import MovieCard from "@/components/MovieCard";
-import { AdBannerPlaceholder } from "@/components/AdBanner";
 import useStore from "@/store/useStore";
 
 export default function WatchlistPage() {
@@ -78,7 +77,6 @@ export default function WatchlistPage() {
                 <MovieCard key={movie.id} movie={movie} index={index} />
               ))}
             </div>
-            <AdBannerPlaceholder className="mt-12" label="Advertisement" />
           </>
         )}
       </section>

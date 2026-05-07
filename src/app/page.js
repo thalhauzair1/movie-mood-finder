@@ -1,41 +1,48 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
 import MovieCard from "@/components/MovieCard";
-import { AdBannerPlaceholder } from "@/components/AdBanner";
 import { getMovieRecommendations, getMoodLabel } from "@/services/moodEngine";
 import { enrichWithTMDB } from "@/services/tmdbApi";
 import useStore from "@/store/useStore";
 
-const FRIENDS_DATA = [
+const MOOD_SHORTCUTS = [
+  { label: "I'm feeling sad", query: "I feel sad and need something uplifting", icon: "💪" },
+  { label: "Date night", query: "romantic movie for date night", icon: "❤️" },
+  { label: "Family movie", query: "family friendly movie for everyone", icon: "🍿" },
+  { label: "Something scary", query: "scary horror movie", icon: "👻" },
+  { label: "Can't stop thinking", query: "mind bending sci-fi thriller", icon: "🧠" },
+  { label: "Feel nostalgic", query: "nostalgic childhood classic", icon: "🕰️" },
+  { label: "Thrill seeker", query: "exciting action adventure movie", icon: "🚀" },
+  { label: "Make me laugh", query: "funny comedy movie", icon: "😂" },
+];
+
+const EDITORIAL_PICKS = [
   {
-    name: "John",
-    action: "liked",
-    movie: "Inception",
-    avatar: "🧑‍💻",
-    color: "from-blue-500 to-cyan-500",
+    title: "How to Pick a Movie by Mood",
+    description: "Why your emotional state matters more than genre when choosing what to watch.",
+    href: "/guides/how-to-pick-a-movie-by-mood",
+    icon: "🎭",
   },
   {
-    name: "Sarah",
-    action: "recommends",
-    movie: "The Dark Knight",
-    avatar: "👩‍🎨",
-    color: "from-purple-500 to-pink-500",
+    title: "Best Feel-Good Movies",
+    description: "Films that honestly acknowledge difficulty — and then carry you somewhere better.",
+    href: "/guides/best-feel-good-movies",
+    icon: "💪",
   },
   {
-    name: "Mike",
-    action: "is watching",
-    movie: "Interstellar",
-    avatar: "🧑‍🚀",
-    color: "from-amber-500 to-orange-500",
+    title: "Mind-Bending Movies Guide",
+    description: "Cerebral sci-fi and psychological films that stay with you for days.",
+    href: "/guides/mind-bending-movies-guide",
+    icon: "🧠",
   },
   {
-    name: "Emma",
-    action: "loved",
-    movie: "Spirited Away",
-    avatar: "👩‍🏫",
-    color: "from-green-500 to-emerald-500",
+    title: "Romantic Movies for Date Night",
+    description: "Films that set the right mood and generate the best conversations afterward.",
+    href: "/guides/romantic-movies-for-date-night",
+    icon: "❤️",
   },
 ];
 
@@ -134,9 +141,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ad placement below hero */}
-      <AdBannerPlaceholder className="max-w-7xl px-4" />
-
       {/* Results Section */}
       {(isLoading || movies.length > 0 || error) && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -199,7 +203,6 @@ export default function HomePage() {
                   <MovieCard key={movie.id} movie={movie} index={index} />
                 ))}
               </div>
-              <AdBannerPlaceholder className="mt-12" label="Recommended for You" />
             </>
           )}
 
@@ -215,49 +218,100 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Friends Section Area */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <AdBannerPlaceholder className="mb-12" />
-        
-        <div className="flex items-center gap-3 mb-8">
-          <h2 className="text-xl sm:text-2xl font-bold text-white">
-            🔥 What your friends are watching
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {FRIENDS_DATA.map((friend, i) => (
-            <div
+      {/* Mood Shortcuts */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+        <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">
+          Quick mood picks
+        </h2>
+        <div className="flex flex-wrap gap-3">
+          {MOOD_SHORTCUTS.map((shortcut, i) => (
+            <button
               key={i}
-              className={`animate-fade-in-up opacity-0 stagger-${i + 1} group relative overflow-hidden rounded-2xl border border-white/5 bg-[var(--card-bg)] p-5 hover:border-white/15 transition-all duration-500 cursor-default`}
-              style={{ animationFillMode: "forwards" }}
+              onClick={() => handleSearch(shortcut.query)}
+              disabled={isLoading}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-[var(--card-bg)] hover:border-accent/40 hover:bg-accent/5 transition-all duration-300 text-sm text-text-muted hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <div className="flex items-start gap-4">
-                <div
-                  className={`w-12 h-12 rounded-full bg-gradient-to-br ${friend.color} flex items-center justify-center text-xl shadow-lg flex-shrink-0`}
-                >
-                  {friend.avatar}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-white font-semibold">
-                    {friend.name}{" "}
-                    <span className="text-text-muted font-normal">
-                      {friend.action}
-                    </span>
-                  </p>
-                  <p className="text-accent font-bold text-base mt-1 truncate">
-                    {friend.movie}
-                  </p>
-                </div>
-              </div>
-
-              {/* Decorative glow */}
-              <div
-                className={`absolute -bottom-6 -right-6 w-24 h-24 rounded-full bg-gradient-to-br ${friend.color} opacity-5 group-hover:opacity-10 transition-opacity duration-500 blur-xl`}
-              />
-            </div>
+              <span>{shortcut.icon}</span>
+              {shortcut.label}
+            </button>
           ))}
         </div>
+      </section>
+
+      {/* Editorial Guides Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+        <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">
+            Movie Guides
+          </h2>
+          <Link
+            href="/guides"
+            className="text-sm text-accent hover:underline flex items-center gap-1"
+          >
+            View all guides
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {EDITORIAL_PICKS.map((pick, i) => (
+            <Link
+              key={i}
+              href={pick.href}
+              className="group flex flex-col p-5 rounded-2xl border border-white/5 bg-[var(--card-bg)] hover:border-accent/30 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/5"
+            >
+              <span className="text-3xl mb-3">{pick.icon}</span>
+              <h3 className="text-sm font-bold text-white group-hover:text-accent transition-colors mb-2 leading-snug">
+                {pick.title}
+              </h3>
+              <p className="text-xs text-text-muted leading-relaxed flex-1">
+                {pick.description}
+              </p>
+              <span className="text-accent text-xs font-medium mt-3 flex items-center gap-1">
+                Read guide
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* About section with written content for crawlability */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 text-center">
+        <h2 className="text-2xl font-bold text-white mb-4">
+          Why Mood-Based Movie Discovery Works
+        </h2>
+        <div className="text-text-muted space-y-4 leading-relaxed text-sm sm:text-base text-left">
+          <p>
+            The most important factor in whether you enjoy a film isn&apos;t its genre, its Rotten Tomatoes
+            score, or how many awards it won. It&apos;s whether it matches how you&apos;re feeling right now.
+            A brilliant psychological thriller can feel exhausting on a day you&apos;re already stressed.
+            A silly comedy can feel hollow when you need something with emotional weight.
+          </p>
+          <p>
+            Movie Mood Finder is built around this insight. Instead of browsing endless genre categories,
+            you simply describe your current mood in natural language — and our recommendation engine
+            maps it to curated film picks that are actually suited to how you feel. Every recommendation
+            includes a personalized explanation of why that specific film fits your moment.
+          </p>
+          <p>
+            All movie data is sourced in real time from{" "}
+            <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              The Movie Database (TMDB)
+            </a>
+            , giving you accurate ratings, posters, and overviews for every recommendation.
+            No sign-up required. Completely free.
+          </p>
+        </div>
+        <Link
+          href="/about"
+          className="inline-flex items-center gap-2 mt-8 text-sm text-accent hover:underline"
+        >
+          Learn more about how it works →
+        </Link>
       </section>
     </div>
   );
